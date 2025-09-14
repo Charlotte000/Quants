@@ -1,7 +1,7 @@
 #pragma once
 
 #include <math.h>
-#include <iostream>
+#include <ostream>
 #include <stdexcept>
 
 namespace Quants
@@ -122,9 +122,9 @@ struct Quantity
     friend std::ostream& operator<<(std::ostream& stream, const Quantity<Lp, Mp, Tp>& v)
     {
         stream << v.value;
-        if (Lp) std::cout << " (" << v.Ls << " m)^" << Lp;
-        if (Mp) std::cout << " (" << v.Ms << " kg)^" << Mp;
-        if (Tp) std::cout << " (" << v.Ts << " s)^" << Tp;
+        if (Lp) stream << " (" << v.Ls << " m)^" << Lp;
+        if (Mp) stream << " (" << v.Ms << " kg)^" << Mp;
+        if (Tp) stream << " (" << v.Ts << " s)^" << Tp;
 
         return stream;
     }
