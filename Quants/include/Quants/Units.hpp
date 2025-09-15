@@ -1,3 +1,10 @@
+/**
+ * @file Units.hpp
+ * @brief Defines standard units for physical quantities.
+ * 
+ * This file provides predefined units such as meters, kilograms, seconds, and derived units.
+ * It also includes angle measurements in degrees, arc minutes, and arc seconds for convenience.
+ */
 #pragma once
 
 #include "Quants/Quantity.hpp"

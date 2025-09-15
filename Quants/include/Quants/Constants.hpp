@@ -1,3 +1,9 @@
+/**
+ * @file Constants.hpp
+ * @brief Physical constants definitions
+ * 
+ * This file defines several fundamental physical constants using the Quantity template.
+ */
 #pragma once
 
 #include "Quants/Units.hpp"

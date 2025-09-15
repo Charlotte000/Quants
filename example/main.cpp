@@ -8,7 +8,7 @@ namespace c = Quants::Constants;
 
 int main()
 {
-    Quants::Acceleration a = 1 * u::m / u::s / u::s;
+    Quants::Acceleration a = 9.83 * u::m / u::s / u::s;
     Quants::Velocity v = 0 * u::m / u::s;
     Quants::Length r = 0 * u::m;
 
@@ -20,7 +20,15 @@ int main()
         r += v * step;
     }
 
-    std::cout << r << std::endl;
-    std::cout << a * duration * duration / 2 << std::endl;
+    Quants::Length r0 = a * duration * duration / 2;
+
+    std::cout << "Calculated: " << r << std::endl;
+    std::cout << "Formula: " << a * duration * duration / 2 << std::endl;
+    std::cout << "Error: " << r - r0 << std::endl;
+    std::cout << std::endl;
+
+    Quants::Mass M = 1.98892e30l * u::kg;
+    Quants::Length R_s = 2 * c::G * M / (c::c * c::c);
+    std::cout << "Schwarzschild radius of the Sun: " <<  R_s << std::endl;
     return 0;
 }
