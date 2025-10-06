@@ -1,3 +1,7 @@
+/**
+ * @file Astronomy.hpp
+ * @brief Units and constants commonly used in astronomy.
+ */
 #pragma once
 
 #include "Quants/Units/Base.hpp"
@@ -10,7 +14,7 @@ namespace Units
 {
 
 /**
- * @brief Day
+ * @brief Julian day
  */
 static const Time day { .value = 1, .factor = Dimension<long long>{ .L = 1, .M = 1, .T = 86400, .I = 1, .TH = 1, .N = 1, .J = 1, } };
 

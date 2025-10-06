@@ -1,3 +1,7 @@
+/**
+ * @file Electromagnetism.hpp
+ * @brief Units and type definitions for electromagnetism.
+ */
 #pragma once
 
 #include "Quants/Quantity.hpp"

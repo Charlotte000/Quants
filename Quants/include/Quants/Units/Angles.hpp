@@ -1,3 +1,7 @@
+/**
+ * @file Angles.hpp
+ * @brief Common angle units. Although angles are dimensionless, these units are provided for convenience.
+ */
 #pragma once
 
 #include <math.h>

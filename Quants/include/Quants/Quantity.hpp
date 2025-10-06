@@ -1,3 +1,6 @@
+/**
+ * @file Quantity.hpp
+ */
 #pragma once
 
 #include <math.h>
@@ -7,41 +10,49 @@
 namespace Quants
 {
 
+/**
+ * @brief Dimension of a physical quantity.
+ * 
+ * The dimension is represented as a vector of exponents of the base SI units:
+ * Length (m), Mass (kg), Time (s), Electric current (A), Temperature (K), Amount of substance (mol), Luminous intensity (cd).
+ * 
+ * @tparam genType The type of the exponents, typically an integer type.
+ */
 template <class genType>
 struct Dimension
 {
     /**
-     * @brief Length
+     * @brief Length (m)
      */
     genType L;
 
     /**
-     * @brief Mass
+     * @brief Mass (kg)
      */
     genType M;
 
     /**
-     * @brief Time
+     * @brief Time (s)
      */
     genType T;
 
     /**
-     * @brief Electric current
+     * @brief Electric current (A)
      */
     genType I;
 
     /**
-     * @brief Temperature
+     * @brief Temperature (K)
      */
     genType TH;
 
     /**
-     * @brief Amount of substance
+     * @brief Amount of substance (mol)
      */
     genType N;
 
     /**
-     * @brief Luminous intensity
+     * @brief Luminous intensity (cd)
      */
     genType J;
 
@@ -107,13 +118,33 @@ struct Dimension
     }
 };
 
+/**
+ * @brief A physical quantity with a value and a dimension.
+ * 
+ * A quantity represents a physical measurement, such as length, mass, time, etc.
+ * It consists of a numerical value and a dimension that defines its physical nature that can be expressed in terms of the base SI units as follows:
+ * value * (factor.L * m)^E.L * (factor.M * kg)^E.M * (factor.T * s)^E.T * (factor.I * A)^E.I * (factor.TH * K)^E.TH * (factor.N * mol)^E.N * (factor.J * cd)^E.J
+ * 
+ * @tparam E The dimensional exponents.
+ */
 template <Dimension<int> E>
 struct Quantity
 {
+    /**
+     * @brief Value of the quantity in the specified units.
+     */
     long double value;
 
+    /**
+     * @brief Factor for each base unit to convert to the SI unit.
+     */
     Dimension<long long> factor = Dimension<long long> { .L = 1, .M = 1, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1, };
 
+    /**
+     * @brief Convert the quantity to a different unit factor.
+     * @param factor The target unit factor.
+     * @return The converted quantity.
+     */
     Quantity<E> convert(const Dimension<long long>& factor) const
     {
         long double scale = 1;
@@ -127,11 +158,21 @@ struct Quantity
         return { .value = value * scale, .factor = factor };
     }
 
+    /**
+     * @brief Convert the quantity to the units of another quantity.
+     * @param v The target quantity to convert to.
+     * @return The conversion factor from this quantity to the target quantity.
+     */
     long double convert(const Quantity<E>& v) const
     {
         return this->convert(v.factor).value / v.value;
     }
 
+    /**
+     * @brief Calculate the square root of the quantity.
+     * @return The square root of the quantity.
+     * @note The square root is only defined for quantities with even exponents.
+     */
     Quantity<E / 2> sqrt() const
     {
         static_assert(
@@ -239,6 +280,13 @@ struct Quantity
     }
 };
 
+/**
+ * @brief A 3D vector quantity.
+ * 
+ * A vector quantity represents a physical measurement with direction.
+ * 
+ * @tparam E The dimensional exponents.
+ */
 template <Dimension<int> E>
 struct VectorQuantity
 {
@@ -246,11 +294,20 @@ struct VectorQuantity
     Quantity<E> y;
     Quantity<E> z;
 
+    /**
+     * @brief Calculate the length (magnitude) of the vector.
+     * @return The length of the vector.
+     */
     Quantity<E> length() const
     {
         return (this->x * this->x + this->y * this->y + this->z * this->z).sqrt();
     }
 
+    /**
+     * @brief Convert the vector quantity to a different unit factor.
+     * @param factor The target unit factor.
+     * @return The converted vector quantity.
+     */
     VectorQuantity<E> convert(const Dimension<long long>& factor) const
     {
         return { .x = this->x.convert(factor), .y = this->y.convert(factor), .z = this->z.convert(factor), };

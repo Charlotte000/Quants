@@ -1,3 +1,7 @@
+/**
+ * @file Base.hpp
+ * @brief Fundamental units and type definitions.
+ */
 #pragma once
 
 #include "Quants/Quantity.hpp"

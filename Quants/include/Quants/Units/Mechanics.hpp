@@ -1,3 +1,7 @@
+/**
+ * @file Mechanics.hpp
+ * @brief Units and type definitions for mechanics.
+ */
 #pragma once
 
 #include "Quants/Units/Base.hpp"

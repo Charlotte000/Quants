@@ -1,3 +1,7 @@
+/**
+ * @file Molecular.hpp
+ * @brief Units and constants commonly used in molecular physics and chemistry.
+ */
 #pragma once
 
 #include "Quants/Quantity.hpp"

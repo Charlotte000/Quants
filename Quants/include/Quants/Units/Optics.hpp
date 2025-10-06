@@ -1,3 +1,7 @@
+/**
+ * @file Optics.hpp
+ * @brief Units and type definitions for optics.
+ */
 #pragma once
 
 #include "Quants/Quantity.hpp"
