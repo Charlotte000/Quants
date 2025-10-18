@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "Quants/Quantity.hpp"
+#include "Quants/Unit.hpp"
 
 namespace Quants
 {
@@ -36,17 +36,17 @@ namespace Units
 /**
  * @brief Candela
  */
-static const LuminousIntensity cd { .value = 1 };
+static const Unit<Dimension<int>{ 0, 0, 0, 0, 0, 0, 1 }> cd;
 
 /**
  * @brief Lumen
  */
-static const LuminousIntensity lm { .value = 1 };
+static const Unit<Dimension<int>{ 0, 0, 0, 0, 0, 0, 1 }> lm;
 
 /**
  * @brief Lux
  */
-static const Illuminance lx { .value = 1 };
+static const Unit<Dimension<int>{ -2, 0, 0, 0, 0, 0, 1 }> lx;
 
 }
 

@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "Quants/Quantity.hpp"
+#include "Quants/Unit.hpp"
 
 namespace Quants
 {
@@ -183,48 +183,48 @@ namespace Units
 /**
  * @brief Ampere
  */
-static const Current A { .value = 1 };
+static const Unit<Dimension<int>{ 0, 0, 0, 1, 0, 0, 0 }> A;
 
 /**
  * @brief Coulomb
  */
-static const Charge C { .value = 1 };
+static const Unit<Dimension<int>{ 0, 0, 1, 1, 0, 0, 0 }> C;
 
 /**
  * @brief Farad
  */
-static const Capacitance F { .value = 1 };
+static const Unit<Dimension<int>{ -2, -1, 4, 2, 0, 0, 0 }> F;
 
 /**
  * @brief Henry
  */
-static const Inductance H { .value = 1 };
+static const Unit<Dimension<int>{ 2, 1, -2, -2, 0, 0, 0 }> H;
 
 /**
  * @brief Ohm
  * 
  */
-static const Resistance Ohm { .value = 1 };
+static const Unit<Dimension<int>{ 2, 1, -3, -2, 0, 0, 0 }> Ohm;
 
 /**
  * @brief Siemens
  */
-static const Conductance S { .value = 1 };
+static const Unit<Dimension<int>{ -2, -1, 3, 2, 0, 0, 0 }> S;
 
 /**
  * @brief Tesla
  */
-static const MagneticFluxDensity T { .value = 1 };
+static const Unit<Dimension<int>{ 0, 1, -2, -1, 0, 0, 0 }> T;
 
 /**
  * @brief Volt
  */
-static const Potential V { .value = 1 };
+static const Unit<Dimension<int>{ 2, 1, -3, -1, 0, 0, 0 }> V;
 
 /**
  * @brief Weber
  */
-static const MagneticFlux Wb { .value = 1 };
+static const Unit<Dimension<int>{ 2, 1, -2, -1, 0, 0, 0 }> Wb;
 
 }
 

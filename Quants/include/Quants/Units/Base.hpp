@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "Quants/Quantity.hpp"
+#include "Quants/VectorQuantity.hpp"
 
 namespace Quants
 {
@@ -25,42 +25,42 @@ namespace Units
 /**
  * @brief Meter
  */
-static const Length m { .value = 1 };
+static const Unit<Dimension<int>{ 1, 0, 0, 0, 0, 0, 0 }> m;
 
 /**
  * @brief Kilometer
  */
-static const Length km { .value = 1, .factor = Dimension<long long>{ .L = 1'000, .M = 1, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1, } };
+static const Unit<Dimension<int>{ 1, 0, 0, 0, 0, 0, 0 }> km { .factor = Dimension<long long>{ .L = 1'000, .M = 1, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1 } };
 
 /**
  * @brief Kilogram
  */
-static const Mass kg { .value = 1 };
+static const Unit<Dimension<int>{ 0, 1, 0, 0, 0, 0, 0 }> kg;
 
 /**
  * @brief Ton
  */
-static const Mass t { .value = 1, .factor = Dimension<long long>{ .L = 1, .M = 1'000, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1, } };
+static const Unit<Dimension<int>{ 0, 1, 0, 0, 0, 0, 0 }> t { .factor = Dimension<long long>{ .L = 1, .M = 1'000, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1 } };
 
 /**
  * @brief Second
  */
-static const Time s { .value = 1 };
+static const Unit<Dimension<int>{ 0, 0, 1, 0, 0, 0, 0 }> s;
 
 /**
  * @brief Minute
  */
-static const Time minute { .value = 1, .factor = Dimension<long long>{ .L = 1, .M = 1, .T = 60, .I = 1, .TH = 1, .N = 1, .J = 1, } };
+static const Unit<Dimension<int>{ 0, 0, 1, 0, 0, 0, 0 }> minute { .factor = Dimension<long long>{ .L = 1, .M = 1, .T = 60, .I = 1, .TH = 1, .N = 1, .J = 1 } };
 
 /**
  * @brief Hour
  */
-static const Time hr { .value = 1, .factor = Dimension<long long>{ .L = 1, .M = 1, .T = 3600, .I = 1, .TH = 1, .N = 1, .J = 1, } };
+static const Unit<Dimension<int>{ 0, 0, 1, 0, 0, 0, 0 }> hr { .factor = Dimension<long long>{ .L = 1, .M = 1, .T = 3600, .I = 1, .TH = 1, .N = 1, .J = 1 } };
 
 /**
  * @brief Kelvin
  */
-static const Temperature K { .value = 1 };
+static const Unit<Dimension<int>{ 0, 0, 0, 0, 1, 0, 0 }> K;
 
 }
 

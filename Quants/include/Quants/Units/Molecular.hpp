@@ -4,8 +4,6 @@
  */
 #pragma once
 
-#include "Quants/Quantity.hpp"
-#include "Quants/Units/Base.hpp"
 #include "Quants/Units/Mechanics.hpp"
 
 namespace Quants
@@ -19,7 +17,7 @@ namespace Units
 /**
  * @brief Mole
  */
-static const AmountOfSubstance mol { .value = 1 };
+static const Unit<Dimension<int>{ 0, 0, 0, 0, 0, 1, 0 }> mol;
 
 namespace Constants
 {
@@ -27,7 +25,7 @@ namespace Constants
 /**
  * @brief Planck constant
  */
-static const AngularMomentum h = 6.62607015e-34l * Units::m * Units::m * Units::kg / Units::s;
+static const AngularMomentum h = 6.62607015e-34l * (Units::m * Units::m * Units::kg / Units::s);
 
 /**
  * @brief Reduced Planck constant

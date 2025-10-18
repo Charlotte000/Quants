@@ -133,27 +133,27 @@ namespace Units
 /**
  * @brief Hertz
  */
-static const Frequency Hz { .value = 1 };
+static const Unit<Dimension<int>{ 0, 0, -1, 0, 0, 0, 0 }> Hz;
 
 /**
  * @brief Newton
  */
-static const Force N { .value = 1 };
+static const Unit<Dimension<int>{ 1, 1, -2, 0, 0, 0, 0 }> N;
 
 /**
  * @brief Pascal
  */
-static const Pressure Pa { .value = 1 };
+static const Unit<Dimension<int>{ -1, 1, -2, 0, 0, 0, 0}> Pa;
 
 /**
  * @brief Joule
  */
-static const Energy J { .value = 1 };
+static const Unit<Dimension<int>{ 2, 1, -2, 0, 0, 0, 0 }> J;
 
 /**
  * @brief Watt
  */
-static const Power W { .value = 1 };
+static const Unit<Dimension<int>{ 2, 1, -3, 0, 0, 0, 0 }> W;
 
 }
 
