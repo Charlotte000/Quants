@@ -4,7 +4,6 @@
  */
 #pragma once
 
-#include "Quants/Units/Base.hpp"
 #include "Quants/Units/Mechanics.hpp"
 
 namespace Quants

@@ -7,116 +7,11 @@
 #include <ostream>
 #include <stdexcept>
 
+#include "Quants/Dimension.hpp"
+#include "Quants/VectorQuantity.hpp"
+
 namespace Quants
 {
-
-/**
- * @brief Dimension of a physical quantity.
- * 
- * The dimension is represented as a vector of exponents of the base SI units:
- * Length (m), Mass (kg), Time (s), Electric current (A), Temperature (K), Amount of substance (mol), Luminous intensity (cd).
- * 
- * @tparam genType The type of the exponents, typically an integer type.
- */
-template <class genType>
-struct Dimension
-{
-    /**
-     * @brief Length (m)
-     */
-    genType L;
-
-    /**
-     * @brief Mass (kg)
-     */
-    genType M;
-
-    /**
-     * @brief Time (s)
-     */
-    genType T;
-
-    /**
-     * @brief Electric current (A)
-     */
-    genType I;
-
-    /**
-     * @brief Temperature (K)
-     */
-    genType TH;
-
-    /**
-     * @brief Amount of substance (mol)
-     */
-    genType N;
-
-    /**
-     * @brief Luminous intensity (cd)
-     */
-    genType J;
-
-    constexpr Dimension<genType> operator+(const Dimension<genType>& v) const
-    {
-        return
-        {
-            .L = this->L + v.L,
-            .M = this->M + v.M,
-            .T = this->T + v.T,
-            .I = this->I + v.I,
-            .TH = this->TH + v.TH,
-            .N = this->N + v.N,
-            .J = this->J + v.J,
-        };
-    }
-
-    constexpr Dimension<genType> operator-() const
-    {
-        return
-        {
-            .L = -this->L,
-            .M = -this->M,
-            .T = -this->T,
-            .I = -this->I,
-            .TH = -this->TH,
-            .N = -this->N,
-            .J = -this->J,
-        };
-    }
-
-    constexpr Dimension<genType> operator-(const Dimension<genType>& v) const
-    {
-        return *this + (-v);
-    }
-
-    constexpr Dimension<genType> operator/(genType v) const
-    {
-        return
-        {
-            .L = this->L / v,
-            .M = this->M / v,
-            .T = this->T / v,
-            .I = this->I / v,
-            .TH = this->TH / v,
-            .N = this->N / v,
-            .J = this->J / v,
-        };
-    }
-
-    constexpr friend Dimension<genType> max(const Dimension<genType>& v1, const Dimension<genType>& v2)
-    {
-        return
-        {
-            .L = std::max(v1.L, v2.L),
-            .M = std::max(v1.M, v2.M),
-            .T = std::max(v1.T, v2.T),
-            .I = std::max(v1.I, v2.I),
-            .TH = std::max(v1.TH, v2.TH),
-            .N = std::max(v1.N, v2.N),
-            .J = std::max(v1.J, v2.J),
-        };
-    }
-};
 
 /**
  * @brief A physical quantity with a value and a dimension.
@@ -145,7 +40,7 @@ struct Quantity
      * @param factor The target unit factor.
      * @return The converted quantity.
      */
-    Quantity<E> convert(const Dimension<long long>& factor) const
+    constexpr Quantity<E> cast(const Dimension<long long>& factor) const
     {
         long double scale = 1;
         scale *= std::pow((long double)this->factor.L / factor.L, E.L);
@@ -163,9 +58,9 @@ struct Quantity
      * @param v The target quantity to convert to.
      * @return The conversion factor from this quantity to the target quantity.
      */
-    long double convert(const Quantity<E>& v) const
+    constexpr long double cast(const Quantity<E>& v) const
     {
-        return this->convert(v.factor).value / v.value;
+        return (*this / v).value;
     }
 
     /**
@@ -173,7 +68,7 @@ struct Quantity
      * @return The square root of the quantity.
      * @note The square root is only defined for quantities with even exponents.
      */
-    Quantity<E / 2> sqrt() const
+    constexpr Quantity<E / 2> sqrt() const
     {
         static_assert(
             E.L % 2 == 0 && E.M % 2 == 0 && E.T % 2 == 0 && E.I % 2 == 0 && E.TH % 2 == 0 && E.N % 2 == 0 && E.J % 2 == 0,
@@ -181,202 +76,124 @@ struct Quantity
         );
         return { .value = std::sqrt(this->value), .factor = this->factor, };
     }
-
-    Quantity<E> operator+(const Quantity<E>& v) const
-    {
-        Dimension<long long> newFactor = max(this->factor, v.factor);
-        return { .value = this->convert(newFactor).value + v.convert(newFactor).value, .factor = newFactor, };
-    }
-
-    Quantity<E>& operator+=(const Quantity<E>& v)
-    {
-        *this = *this + v;
-        return *this;
-    }
-
-    Quantity<E> operator-() const
-    {
-        return { .value = -this->value, .factor = this->factor, };
-    }
-
-    Quantity<E> operator-(const Quantity<E>& v) const
-    {
-        return *this + (-v);
-    }
-
-    Quantity<E>& operator-=(const Quantity<E>& v)
-    {
-        *this = *this - v;
-        return *this;
-    }
-
-    Quantity<E> operator*(long double v) const
-    {
-        return { .value = this->value * v, .factor = this->factor, };
-    }
-
-    template <Dimension<int> E2>
-    Quantity<E + E2> operator*(const Quantity<E2>& v) const
-    {
-        Dimension<long long> newFactor = max(this->factor, v.factor);
-        return { .value = this->convert(newFactor).value * v.convert(newFactor).value, .factor = newFactor, };
-    }
-
-    Quantity<E>& operator*=(long double v)
-    {
-        *this = *this * v;
-        return *this;
-    }
-
-    friend Quantity<E> operator*(long double v1, const Quantity<E>& v2)
-    {
-        return v2 * v1;
-    }
-
-    Quantity<E> operator/(long double v) const
-    {
-        return *this * (1 / v);
-    }
-
-    template <Dimension<int> E2>
-    Quantity<E - E2> operator/(const Quantity<E2>& v) const
-    {
-        Dimension<long long> newFactor = max(this->factor, v.factor);
-        return { .value = this->convert(newFactor).value / v.convert(newFactor).value, .factor = newFactor, };
-    }
-
-    Quantity<E>& operator/=(long double v)
-    {
-        *this = *this / v;
-        return *this;
-    }
-
-    friend Quantity<-E> operator/(long double v1, const Quantity<E>& v2)
-    {
-        return { .value = v1 / v2.value, .factor = v2.factor, };
-    }
-
-    bool operator<(const Quantity<E>& v) const
-    {
-        return (*this - v).value < 0;
-    }
-
-    bool operator>(const Quantity<E>& v) const
-    {
-        return (*this - v).value > 0;
-    }
-
-    friend std::ostream& operator<<(std::ostream& stream, const Quantity<E>& v)
-    {
-        stream << v.value;
-        if (E.L) stream << " (" << v.factor.L << " m)^" << E.L;
-        if (E.M) stream << " (" << v.factor.M << " kg)^" << E.M;
-        if (E.T) stream << " (" << v.factor.T << " s)^" << E.T;
-        if (E.I) stream << " (" << v.factor.I << " A)^" << E.I;
-        if (E.TH) stream << " (" << v.factor.TH << " K)^" << E.TH;
-        if (E.N) stream << " (" << v.factor.N << " mol)^" << E.N;
-        if (E.J) stream << " (" << v.factor.J << " cd)^" << E.J;
-        return stream;
-    }
 };
 
-/**
- * @brief A 3D vector quantity.
- * 
- * A vector quantity represents a physical measurement with direction.
- * 
- * @tparam E The dimensional exponents.
- */
+#pragma region Operators
 template <Dimension<int> E>
-struct VectorQuantity
+struct VectorQuantity;
+#pragma region Add
+template <Dimension<int> E>
+constexpr Quantity<E> operator+(const Quantity<E>& lhs, const Quantity<E>& rhs)
 {
-    Quantity<E> x;
-    Quantity<E> y;
-    Quantity<E> z;
+    Dimension<long long> newFactor = max(lhs.factor, rhs.factor);
+    return Quantity<E>{ .value = lhs.cast(newFactor).value + rhs.cast(newFactor).value, .factor = newFactor };
+}
 
-    /**
-     * @brief Calculate the length (magnitude) of the vector.
-     * @return The length of the vector.
-     */
-    Quantity<E> length() const
-    {
-        return (this->x * this->x + this->y * this->y + this->z * this->z).sqrt();
-    }
+template <Dimension<int> E>
+constexpr Quantity<E>& operator+=(Quantity<E>& lhs, const Quantity<E>& rhs)
+{
+    lhs = lhs + rhs;
+    return lhs;
+}
+#pragma endregion Add
+#pragma region Sub
+template <Dimension<int> E>
+constexpr Quantity<E> operator-(const Quantity<E>& lhs)
+{
+    return Quantity<E>{ .value = -lhs.value, .factor = lhs.factor };
+}
 
-    /**
-     * @brief Convert the vector quantity to a different unit factor.
-     * @param factor The target unit factor.
-     * @return The converted vector quantity.
-     */
-    VectorQuantity<E> convert(const Dimension<long long>& factor) const
-    {
-        return { .x = this->x.convert(factor), .y = this->y.convert(factor), .z = this->z.convert(factor), };
-    }
+template <Dimension<int> E>
+constexpr Quantity<E> operator-(const Quantity<E>& lhs, const Quantity<E>& rhs)
+{
+    return lhs + (-rhs);
+}
 
-    VectorQuantity<E> operator+(const VectorQuantity<E>& v) const
-    {
-        return { .x = this->x + v.x, .y = this->y + v.y, .z = this->z + v.z, };
-    }
+template <Dimension<int> E>
+constexpr Quantity<E>& operator-=(Quantity<E>& lhs, const Quantity<E>& rhs)
+{
+    lhs = lhs - rhs;
+    return lhs;
+}
+#pragma endregion Sub
+#pragma region Mul
+template <Dimension<int> E>
+constexpr Quantity<E> operator*(const Quantity<E>& lhs, long double rhs)
+{
+    return Quantity<E>{ .value = lhs.value * rhs, .factor = lhs.factor };
+}
 
-    VectorQuantity<E>& operator+=(const VectorQuantity<E>& v)
-    {
-        *this = *this + v;
-        return *this;
-    }
+template <Dimension<int> E>
+constexpr Quantity<E> operator*(long double lhs, const Quantity<E>& rhs)
+{
+    return rhs * lhs;
+}
 
-    VectorQuantity<E> operator-() const
-    {
-        return { .x = -this->x, .y = -this->y, .z = -this->z, };
-    }
+template <Dimension<int> E1, Dimension<int> E2>
+constexpr Quantity<E1 + E2> operator*(const Quantity<E1>& lhs, const Quantity<E2>& rhs)
+{
+    Dimension<long long> newFactor = max(lhs.factor, rhs.factor);
+    return Quantity<E1 + E2>{ .value = lhs.cast(newFactor).value * rhs.cast(newFactor).value, .factor = newFactor };
+}
 
-    VectorQuantity<E> operator-(const VectorQuantity<E>& v) const
-    {
-        return *this + (-v);
-    }
+template <Dimension<int> E>
+constexpr Quantity<E>& operator*=(Quantity<E>& lhs, long double rhs)
+{
+    lhs = lhs * rhs;
+    return lhs;
+}
+#pragma endregion Mul
+#pragma region Div
+template <Dimension<int> E>
+constexpr Quantity<E> operator/(const Quantity<E>& lhs, long double rhs)
+{
+    return lhs * (1 / rhs);
+}
 
-    VectorQuantity<E>& operator-=(const VectorQuantity<E>& v)
-    {
-        *this = *this - v;
-        return *this;
-    }
+template <Dimension<int> E>
+constexpr Quantity<-E> operator/(long double lhs, const Quantity<E>& rhs)
+{
+    return Quantity<-E>{ .value = lhs / rhs.value, .factor = rhs.factor };
+}
 
-    VectorQuantity<E> operator*(long double v) const
-    {
-        return { .x = this->x * v, .y = this->y * v, .z = this->z * v, };
-    }
+template <Dimension<int> E1, Dimension<int> E2>
+constexpr Quantity<E1 - E2> operator/(const Quantity<E1>& lhs, const Quantity<E2>& rhs)
+{
+    Dimension<long long> newFactor = max(lhs.factor, rhs.factor);
+    return Quantity<E1 - E2>{ .value = lhs.cast(newFactor).value / rhs.cast(newFactor).value, .factor = newFactor };
+}
 
-    friend Quantity<E> operator*(long double v1, const VectorQuantity<E>& v2)
-    {
-        return v2 * v1;
-    }
+template <Dimension<int> E>
+constexpr Quantity<E>& operator/=(Quantity<E>& lhs, long double rhs)
+{
+    lhs = lhs / rhs;
+    return lhs;
+}
+#pragma endregion Div
+template <Dimension<int> E>
+constexpr bool operator<(const Quantity<E>& lhs, const Quantity<E>& rhs)
+{
+    return (lhs - rhs).value < 0;
+}
 
-    VectorQuantity<E>& operator*=(long double v)
-    {
-        *this = *this * v;
-        return *this;
-    }
+template <Dimension<int> E>
+constexpr bool operator>(const Quantity<E>& lhs, const Quantity<E>& rhs)
+{
+    return (lhs - rhs).value > 0;
+}
 
-    VectorQuantity<E> operator/(long double v) const
-    {
-        return *this * (1 / v);
-    }
-
-    friend VectorQuantity<-E> operator/(long double v1, const VectorQuantity<E>& v2)
-    {
-        return { .x = v1 / v2.x, .y = v1 / v2.y, .z = v1 / v2.z, };
-    }
-
-    VectorQuantity<E>& operator/=(long double v)
-    {
-        *this = *this / v;
-        return *this;
-    }
-
-    friend std::ostream& operator<<(std::ostream& stream, const VectorQuantity<E>& v)
-    {
-        stream << v.x << ' ' << v.y << ' ' << v.z;
-        return stream;
-    }
-};
-
+template <Dimension<int> E>
+constexpr std::ostream& operator<<(std::ostream& stream, const Quantity<E>& v)
+{
+    stream << v.value;
+    if (E.L) stream << " (" << v.factor.L << " m)^" << E.L;
+    if (E.M) stream << " (" << v.factor.M << " kg)^" << E.M;
+    if (E.T) stream << " (" << v.factor.T << " s)^" << E.T;
+    if (E.I) stream << " (" << v.factor.I << " A)^" << E.I;
+    if (E.TH) stream << " (" << v.factor.TH << " K)^" << E.TH;
+    if (E.N) stream << " (" << v.factor.N << " mol)^" << E.N;
+    if (E.J) stream << " (" << v.factor.J << " cd)^" << E.J;
+    return stream;
+}
+#pragma endregion Operators
 }

@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "Quants/Quantity.hpp"
+#include "Quants/VectorQuantity.hpp"
 
 namespace Quants
 {
