@@ -8,6 +8,9 @@
 namespace Quants
 {
 
+template <Dimension<int> E>
+struct Quantity;
+
 /**
  * @brief A 3D vector quantity.
  * 
@@ -38,7 +41,7 @@ struct VectorQuantity
      */
     constexpr VectorQuantity<E> cast(const Dimension<long long>& factor) const
     {
-        return { .x = this->x.cast(factor), .y = this->y.cast(factor), .z = this->z.cast(factor), };
+        return { .x = this->x.cast(factor), .y = this->y.cast(factor), .z = this->z.cast(factor) };
     }
 };
 
