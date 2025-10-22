@@ -19,9 +19,6 @@ namespace Units
  */
 static const AmountOfSubstance mol { .value = 1 };
 
-namespace Constants
-{
-
 /**
  * @brief Planck constant
  */
@@ -36,8 +33,6 @@ static const AngularMomentum h_bar = h * M_1_PI / 2;
  * @brief Avogadro constant
  */
 static const Quantity<Dimension<int>{ 0, 0, 0, 0, 0, -1, 0 }> N_a = 6.02214076e23l / Units::mol;
-
-}
 
 }
 

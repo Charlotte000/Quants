@@ -4,7 +4,6 @@
 
 namespace q = Quants;
 namespace u = Quants::Units;
-namespace c = Quants::Constants;
 
 int main()
 {
@@ -35,17 +34,15 @@ int main()
 
     {
         // Schwarzschild radius
-        const q::Mass M_Sun = 1.98892e30l * u::kg;
-        const q::Length R_s = 2 * c::G * M_Sun / (c::c * c::c);
+        const q::Length R_s = 2 * u::G * u::M_Sun / (u::c * u::c);
         std::cout << "Schwarzschild radius of the Sun: " <<  R_s.cast(u::km) << " km" << std::endl;
         std::cout << std::endl;
     }
 
     {
         // Circular orbit velocity
-        const q::Mass M_Earth = 5.972e24l * u::kg;
         const q::Length R_Earth = 6378 * u::km;
-        const q::Velocity orbitVelocity = (c::G * M_Earth / R_Earth).sqrt();
+        const q::Velocity orbitVelocity = (u::G * u::M_Earth / R_Earth).sqrt();
         std::cout << "Earth's circular orbit velocity: " << orbitVelocity.cast(u::m / u::s) << " m / s" << std::endl;
         std::cout << std::endl;
     }

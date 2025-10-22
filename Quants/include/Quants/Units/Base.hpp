@@ -30,7 +30,7 @@ static const Length m { .value = 1 };
 /**
  * @brief Kilometer
  */
-static const Length km { .value = 1, .factor = Dimension<long long>{ .L = 1'000, .M = 1, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1, } };
+static const Length km { .value = 1, .factor = Dimension<long double>{ .L = 1'000, .M = 1, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1 } };
 
 /**
  * @brief Kilogram
@@ -40,7 +40,7 @@ static const Mass kg { .value = 1 };
 /**
  * @brief Ton
  */
-static const Mass t { .value = 1, .factor = Dimension<long long>{ .L = 1, .M = 1'000, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1, } };
+static const Mass t { .value = 1, .factor = Dimension<long double>{ .L = 1, .M = 1'000, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1 } };
 
 /**
  * @brief Second
@@ -50,12 +50,12 @@ static const Time s { .value = 1 };
 /**
  * @brief Minute
  */
-static const Time minute { .value = 1, .factor = Dimension<long long>{ .L = 1, .M = 1, .T = 60, .I = 1, .TH = 1, .N = 1, .J = 1, } };
+static const Time minute { .value = 1, .factor = Dimension<long double>{ .L = 1, .M = 1, .T = 60, .I = 1, .TH = 1, .N = 1, .J = 1 } };
 
 /**
  * @brief Hour
  */
-static const Time hr { .value = 1, .factor = Dimension<long long>{ .L = 1, .M = 1, .T = 3600, .I = 1, .TH = 1, .N = 1, .J = 1, } };
+static const Time hr { .value = 1, .factor = Dimension<long double>{ .L = 1, .M = 1, .T = 3'600, .I = 1, .TH = 1, .N = 1, .J = 1 } };
 
 /**
  * @brief Kelvin

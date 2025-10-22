@@ -33,23 +33,23 @@ struct Quantity
     /**
      * @brief Factor for each base unit to convert to the SI unit.
      */
-    Dimension<long long> factor = Dimension<long long> { .L = 1, .M = 1, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1, };
+    Dimension<long double> factor = Dimension<long double> { .L = 1, .M = 1, .T = 1, .I = 1, .TH = 1, .N = 1, .J = 1, };
 
     /**
      * @brief Convert the quantity to a different unit factor.
      * @param factor The target unit factor.
      * @return The converted quantity.
      */
-    constexpr Quantity<E> cast(const Dimension<long long>& factor) const
+    constexpr Quantity<E> cast(const Dimension<long double>& factor) const
     {
         long double scale = 1;
-        scale *= std::pow((long double)this->factor.L / factor.L, E.L);
-        scale *= std::pow((long double)this->factor.M / factor.M, E.M);
-        scale *= std::pow((long double)this->factor.T / factor.T, E.T);
-        scale *= std::pow((long double)this->factor.I / factor.I, E.I);
-        scale *= std::pow((long double)this->factor.TH / factor.TH, E.TH);
-        scale *= std::pow((long double)this->factor.N / factor.N, E.N);
-        scale *= std::pow((long double)this->factor.J / factor.J, E.J);
+        scale *= std::pow(this->factor.L / factor.L, E.L);
+        scale *= std::pow(this->factor.M / factor.M, E.M);
+        scale *= std::pow(this->factor.T / factor.T, E.T);
+        scale *= std::pow(this->factor.I / factor.I, E.I);
+        scale *= std::pow(this->factor.TH / factor.TH, E.TH);
+        scale *= std::pow(this->factor.N / factor.N, E.N);
+        scale *= std::pow(this->factor.J / factor.J, E.J);
         return { .value = value * scale, .factor = factor };
     }
 
@@ -85,7 +85,7 @@ struct VectorQuantity;
 template <Dimension<int> E>
 constexpr Quantity<E> operator+(const Quantity<E>& lhs, const Quantity<E>& rhs)
 {
-    Dimension<long long> newFactor = max(lhs.factor, rhs.factor);
+    Dimension<long double> newFactor = max(lhs.factor, rhs.factor);
     return Quantity<E>{ .value = lhs.cast(newFactor).value + rhs.cast(newFactor).value, .factor = newFactor };
 }
 
@@ -132,7 +132,7 @@ constexpr Quantity<E> operator*(long double lhs, const Quantity<E>& rhs)
 template <Dimension<int> E1, Dimension<int> E2>
 constexpr Quantity<E1 + E2> operator*(const Quantity<E1>& lhs, const Quantity<E2>& rhs)
 {
-    Dimension<long long> newFactor = max(lhs.factor, rhs.factor);
+    Dimension<long double> newFactor = max(lhs.factor, rhs.factor);
     return Quantity<E1 + E2>{ .value = lhs.cast(newFactor).value * rhs.cast(newFactor).value, .factor = newFactor };
 }
 
@@ -159,7 +159,7 @@ constexpr Quantity<-E> operator/(long double lhs, const Quantity<E>& rhs)
 template <Dimension<int> E1, Dimension<int> E2>
 constexpr Quantity<E1 - E2> operator/(const Quantity<E1>& lhs, const Quantity<E2>& rhs)
 {
-    Dimension<long long> newFactor = max(lhs.factor, rhs.factor);
+    Dimension<long double> newFactor = max(lhs.factor, rhs.factor);
     return Quantity<E1 - E2>{ .value = lhs.cast(newFactor).value / rhs.cast(newFactor).value, .factor = newFactor };
 }
 
