@@ -49,20 +49,20 @@ int main()
 
     {
         // Ohm's Law
-        const q::Current I = 20 * u::A / 1000;
+        const q::Current I = 2 * u::mA;
         const q::Potential V = 5 * u::V;
         const q::Resistance R = V / I;
         std::cout << "R = V / I" << std::endl;
-        std::cout << "R = " << V.cast(u::V) << " V / " << I.cast(u::A / 1000) << " mA" << std::endl;
-        std::cout << "R = " << R.cast(u::Ohm) << " Ohm" << std::endl;
+        std::cout << "R = " << V.cast(u::V) << " V / " << I.cast(u::mA) << " mA" << std::endl;
+        std::cout << "R = " << R.cast(u::kOhm) << " kOhm" << std::endl;
         std::cout << std::endl;
     }
 
     {
         // Euler method 3D
-        const q::Length3 r_0 { .x = 0 * u::m, .y = 0 * u::m, .z = 0 * u::m };
-        const q::Velocity3 v_0 { .x = 1 * u::m / u::s, .y = 2 * u::m / u::s, .z = 0 * u::m / u::s };
-        const q::Acceleration3 a { .x = 0 * u::m / u::s / u::s, .y = -9.83 * u::m / u::s / u::s, .z = 0 * u::m / u::s / u::s };
+        const q::Length3<long double> r_0 { .x = 0 * u::m, .y = 0 * u::m, .z = 0 * u::m };
+        const q::Velocity3<long double> v_0 { .x = 1 * u::m / u::s, .y = 2 * u::m / u::s, .z = 0 * u::m / u::s };
+        const q::Acceleration3<long double> a { .x = 0 * u::m / u::s / u::s, .y = -9.83 * u::m / u::s / u::s, .z = 0 * u::m / u::s / u::s };
         const q::Time t = 1 * u::s;
 
         const q::Length3 r_formula = r_0 + v_0 * t + a * t * t / 2;

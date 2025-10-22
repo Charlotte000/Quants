@@ -21,7 +21,6 @@ static const long double arcMin = deg / 60;
 
 /**
  * @brief Arc second. 60 arc seconds = 1 arc minute. Denoted by "
- * 
  */
 static const long double arcSec = arcMin / 60;
 

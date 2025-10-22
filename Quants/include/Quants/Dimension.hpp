@@ -51,6 +51,21 @@ struct Dimension
      * @brief Luminous intensity (cd)
      */
     genType J;
+
+    template <class genType2>
+    constexpr operator Dimension<genType2>() const
+    {
+        return Dimension<genType2>
+        {
+            .L  = static_cast<genType2>(this->L),
+            .M  = static_cast<genType2>(this->M),
+            .T  = static_cast<genType2>(this->T),
+            .I  = static_cast<genType2>(this->I),
+            .TH = static_cast<genType2>(this->TH),
+            .N  = static_cast<genType2>(this->N),
+            .J  = static_cast<genType2>(this->J),
+        };
+    }
 };
 
 #pragma region Operators
