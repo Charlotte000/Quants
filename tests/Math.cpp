@@ -1,5 +1,3 @@
-#include <assert.h>
-
 #include <Quants/Units.hpp>
 
 #include <gtest/gtest.h>
@@ -13,7 +11,7 @@ TEST(Math, Addition)
     const q::Length b = 1 * u::m;
     const q::Length c = a + b;
 
-    EXPECT_NEAR(c.cast(u::m), 10'001, 1e-1);
+    EXPECT_FLOAT_EQ(c.cast(u::m), 10'001);
 }
 
 TEST(Math, Subtraction)
@@ -22,7 +20,7 @@ TEST(Math, Subtraction)
     const q::Mass b = 1 * u::kg;
     const q::Mass c = a - b;
 
-    EXPECT_NEAR(c.cast(u::kg), 9'999, 1e-1);
+    EXPECT_FLOAT_EQ(c.cast(u::kg), 9'999);
 }
 
 TEST(Math, Multiplication)
@@ -31,7 +29,7 @@ TEST(Math, Multiplication)
     const q::Current b = 2 * u::A;
     const auto c = a * b;
 
-    EXPECT_NEAR(c.cast(u::s * u::A), 0.02, 1e-3);
+    EXPECT_FLOAT_EQ(c.cast(u::s * u::A), 0.02);
 }
 
 TEST(Math, Division)
@@ -40,7 +38,7 @@ TEST(Math, Division)
     const q::AmountOfSubstance b = 1e3 * u::mol;
     const auto c = a / b;
 
-    EXPECT_NEAR(c.cast(u::K / u::mol), 0.1, 1e-2);
+    EXPECT_FLOAT_EQ(c.cast(u::K / u::mol), 0.1);
 }
 
 TEST(Math, Sqrt)
@@ -48,5 +46,5 @@ TEST(Math, Sqrt)
     const q::Area   a = 10 * u::km * u::km;
     const q::Length b = a.sqrt();
 
-    EXPECT_NEAR(b.cast(u::m), 3162.2776, 1e-4);
+    EXPECT_FLOAT_EQ(b.cast(u::m), 3162.2776);
 }

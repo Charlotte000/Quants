@@ -1,5 +1,3 @@
-#include <assert.h>
-
 #include <Quants/Units.hpp>
 
 #include <gtest/gtest.h>
@@ -33,7 +31,7 @@ TEST(BasicFormulas, SchwarzschildRadius)
 {
     const q::Length R_s = 2 * u::G * u::M_Sun / (u::c * u::c);
 
-    EXPECT_NEAR(R_s.cast(u::km), (3 * u::km).cast(u::km), 1e-1);
+    EXPECT_NEAR(R_s.cast(u::km), (2.954 * u::km).cast(u::km), 1e-1);
 }
 
 TEST(BasicFormulas, CircularOrbit)
@@ -42,7 +40,6 @@ TEST(BasicFormulas, CircularOrbit)
     const q::Velocity orbitVelocity = (u::G * u::M_Earth / R_Earth).sqrt();
 
     EXPECT_NEAR(orbitVelocity.cast(u::km / u::s), (7.91 * u::km / u::s).cast(u::km / u::s), 1e-1);
-
 }
 
 TEST(BasicFormulas, OhmsLaw)
@@ -51,7 +48,7 @@ TEST(BasicFormulas, OhmsLaw)
     const q::Potential V = 5 * u::V;
     const q::Resistance R = V / I;
 
-    EXPECT_NEAR(R.cast(u::Ohm), (2.5 * u::kOhm).cast(u::Ohm), 1e-1);
+    EXPECT_FLOAT_EQ(R.cast(u::Ohm), (2.5 * u::kOhm).cast(u::Ohm));
 }
 
 TEST(BasicFormulas, EulerMethod3D)
